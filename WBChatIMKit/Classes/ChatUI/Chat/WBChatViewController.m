@@ -10,15 +10,9 @@
 #import "UITableView+WBScrollToIndexPath.h"
 #import "WBChatMessageTimeCellModel.h"
 #import "UIScrollView+WBRefresh.h"
-#import "WBImageBrowserView.h"
 #import "WBChatViewController+Extension.h"
 
 @interface WBChatViewController ()
-@property (nonatomic, strong) WBChatBarView *chatBar;
-@property (nonatomic, strong) WBSelectPhotoTool *photoTool;
-@property (nonatomic, strong) WBImageBrowserView *pictureBrowserView;
-
-@property (nonatomic, strong) NSMutableDictionary *wbAchieveMsgDic;
 
 @end
 

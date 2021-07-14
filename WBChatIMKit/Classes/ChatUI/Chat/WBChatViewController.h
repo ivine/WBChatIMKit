@@ -11,6 +11,7 @@
 #import "WBChatBarView.h"
 #import "WBSelectPhotoTool.h"
 #import "WBChatMessageBaseCell.h"
+#import "WBImageBrowserView.h"
 
 @class WBChatMessageBaseCellModel;
 @class WBChatMessageBaseCell;
@@ -75,6 +76,17 @@ WBChatBarViewDelegate,WBChatBarViewDataSource,WBChatMessageCellDelegate>
  @param message 消息模型,保存
  */
 - (void)sendMessage:(WBMessageModel *)message;
+
+
+@property (nonatomic, strong) WBChatBarView *chatBar;
+@property (nonatomic, strong) WBSelectPhotoTool *photoTool;
+@property (nonatomic, strong) WBImageBrowserView *pictureBrowserView;
+
+@property (nonatomic, strong) NSMutableDictionary *wbAchieveMsgDic;
+
+- (void)setupUI;
+- (void)keyboardWillShow:(NSNotification *)note;
+- (void)keyboardWillHide:(NSNotification *)note;
 
 @end
 
