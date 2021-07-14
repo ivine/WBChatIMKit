@@ -201,7 +201,7 @@
     //获取目标号码字符串,转换成URL
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",phoneNum]];
     //调用系统方法拨号
-    [[UIApplication sharedApplication] openURL:url];
+    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     
 }
 

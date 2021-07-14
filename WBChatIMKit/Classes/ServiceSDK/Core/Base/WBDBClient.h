@@ -2,8 +2,7 @@
 //  OPDBClient.h
 
 #import <Foundation/Foundation.h>
-#import <FMDB/FMDB.h>
-#import <FMDB/FMDB.h>
+#import <fmdb/FMDB.h>
 #import "WBSynthesizeSingleton.h"
 #import "WBCoreConfiguration.h"
 

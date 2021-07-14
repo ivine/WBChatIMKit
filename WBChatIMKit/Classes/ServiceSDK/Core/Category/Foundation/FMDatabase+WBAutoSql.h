@@ -6,7 +6,7 @@
 //  Copyright © 2018年 RedRain. All rights reserved.
 //
 
-#import <FMDB/FMDB.h>
+#import <fmdb/FMDB.h>
 
 @interface FMDatabase (WBAutoSql)
 

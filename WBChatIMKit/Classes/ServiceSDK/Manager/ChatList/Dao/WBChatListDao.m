@@ -189,7 +189,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListDao)
 #pragma mark - Private
 - (NSData *)dataFromConversation:(LCIMConversation *)conversation {
     LCIMKeyedConversation *keydConversation = [conversation keyedConversation];
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:keydConversation];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:keydConversation requiringSecureCoding:false error:nil];
     return data;
 }
 
@@ -199,7 +199,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListDao)
     
     if (client) {
         NSData *data = [resultSet dataForColumn:WBChatListDaoKeyData];
-        LCIMKeyedConversation *keyedConversation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        LCIMKeyedConversation *keyedConversation = [NSKeyedUnarchiver unarchivedObjectOfClass:[LCIMKeyedConversation class] fromData:data error:nil];
         LCIMConversation *conversation = [client conversationWithKeyedConversation:keyedConversation];
         listModel.conversation = conversation;
     }
