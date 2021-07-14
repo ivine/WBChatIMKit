@@ -55,9 +55,11 @@
     return self.usingClient.status;
 }
 #pragma mark - 设置id和key
-+ (void)setAppId:(NSString *)appId clientKey:(NSString *)appKey serverURLString:(NSString *)serverURLString {
++ (void)setAppId:(NSString *)appId clientKey:(NSString *)appKey serverURLString:(NSString *)serverURLString shouldSetupLCApplication:(BOOL)shouldSetupLCApplication {
 //    [LCIMClient setUnreadNotificationEnabled:YES];
-    [LCApplication setApplicationId:appId clientKey:appKey serverURLString:serverURLString];
+    if (shouldSetupLCApplication) {
+        [LCApplication setApplicationId:appId clientKey:appKey serverURLString:serverURLString];
+    }
     [WBChatKit sharedInstance].appId = appId;
     [WBChatKit sharedInstance].appKey = appKey;
 }

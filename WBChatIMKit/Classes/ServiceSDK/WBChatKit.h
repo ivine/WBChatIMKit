@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  设置appId、appKey、serverURLString
  */
-+ (void)setAppId:(NSString *)appId clientKey:(NSString *)appKey serverURLString:(NSString *)serverURLString;
++ (void)setAppId:(NSString *)appId clientKey:(NSString *)appKey serverURLString:(NSString *)serverURLString shouldSetupLCApplication:(BOOL)shouldSetupLCApplication;
 
 #pragma mark - 连接服务器
 /**
