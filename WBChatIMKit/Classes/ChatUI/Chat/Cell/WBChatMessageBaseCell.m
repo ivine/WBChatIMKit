@@ -132,10 +132,10 @@
 
 - (void)setInterface {
     
-    AVIMTypedMessage* dataModel = self.cellModel.messageModel.content;
+    LCIMTypedMessage* dataModel = self.cellModel.messageModel.content;
     UIImage * bubbleImage = nil;
     
-    if(dataModel.ioType == AVIMMessageIOTypeIn){
+    if(dataModel.ioType == LCIMMessageIOTypeIn){
         self.headerImageView.hidden = NO;
         self.myHeaderImageView.hidden = YES;
         
@@ -177,7 +177,7 @@
         }
         
         
-        if(dataModel.status == AVIMMessageStatusRead){
+        if(dataModel.status == LCIMMessageStatusRead){
             self.messageReadStateLabel.hidden = NO;
         }else{
             self.messageReadStateLabel.hidden = YES;
@@ -197,11 +197,11 @@
         //发送失败显示的图标
         
         
-        if (dataModel.status == AVIMMessageStatusFailed || dataModel.status == AVIMMessageStatusNone) {
+        if (dataModel.status == LCIMMessageStatusFailed || dataModel.status == LCIMMessageStatusNone) {
             self.messageStatusImageView.hidden = NO;
             self.messageStatusImageView.image = [UIImage wb_resourceImageNamed:@"ExclamationMark"];
             [self.messageStatusImageView.layer removeAllAnimations];
-        } else if (dataModel.status == AVIMMessageStatusSending &&
+        } else if (dataModel.status == LCIMMessageStatusSending &&
                    self.cellModel.cellType != WBChatMessageTypeImage &&
                    self.cellModel.cellType != WBChatMessageTypeFile
                    ){

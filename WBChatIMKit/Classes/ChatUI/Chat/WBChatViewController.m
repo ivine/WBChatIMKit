@@ -244,8 +244,8 @@
 
 
 - (void)receiveNewMessgae:(NSNotification *)noti{
-    AVIMConversation *conv = noti.userInfo[WBMessageConversationKey];
-    AVIMTypedMessage *tMsg = noti.userInfo[WBMessageMessageKey];
+    LCIMConversation *conv = noti.userInfo[WBMessageConversationKey];
+    LCIMTypedMessage *tMsg = noti.userInfo[WBMessageMessageKey];
     
     if (![conv.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
@@ -319,7 +319,7 @@
     
 }
 #pragma mark -  Public Methods
-+ (instancetype)createWithConversation:(AVIMConversation *)conversation{
++ (instancetype)createWithConversation:(LCIMConversation *)conversation{
     WBChatViewController *vc = [WBChatViewController new];
     vc.conversation = conversation;
     return vc;

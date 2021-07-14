@@ -13,13 +13,13 @@
 
 @interface WBIMClientDelegateImp ()
 
-@property (nonatomic, strong, readwrite) AVIMClient *client;
+@property (nonatomic, strong, readwrite) LCIMClient *client;
 @property (nonatomic, copy, readwrite) NSString *clientId;
 @property (nonatomic, assign, readwrite) BOOL connect;
 
 @end
 
-@interface WBIMClientDelegateImp (WB_IMDelegate)<AVIMClientDelegate>
+@interface WBIMClientDelegateImp (WB_IMDelegate)<LCIMClientDelegate>
 
 @end
 
@@ -37,7 +37,7 @@
 // 除了 sdk 的上面三个回调调用了，还在 open client 的时候调用了，好统一处理
 - (void)updateConnectStatus {
     
-    self.connect = _client.status == AVIMClientStatusOpened;
+    self.connect = _client.status == LCIMClientStatusOpened;
     [[NSNotificationCenter defaultCenter] postNotificationName:WBIMNotificationConnectivityUpdated object:@(self.connect)];
 }
 
@@ -56,12 +56,13 @@
     [[WBUserManager sharedInstance] openDB];
     
     
-    // 2.创建AVIMClient相关对象
-    self.client = [[AVIMClient alloc] initWithClientId:clientId];
+    // 2.创建LCIMClient相关对象
+    NSError *error;
+    self.client = [[LCIMClient alloc] initWithClientId:clientId error:&error];
     self.client.delegate = self;
     
     // 3.开始连接服务器
-    AVIMClientOpenOption option = force ? AVIMClientOpenOptionForceOpen : AVIMClientOpenOptionReopen;
+    LCIMClientOpenOption option = force ? LCIMClientOpenOptionForceOpen : LCIMClientOpenOptionReopen;
     
     [self.client openWithOption:option callback:^(BOOL succeeded, NSError * _Nullable error) {
         
@@ -87,18 +88,18 @@
 
 
 
-@implementation WBIMClientDelegateImp (WB_IMDelegate) // AVIMClientDelegate
+@implementation WBIMClientDelegateImp (WB_IMDelegate) // LCIMClientDelegate
 
 // ↓↓↓↓↓↓↓↓↓↓↓↓↓ 网络状态变更 ↓↓↓↓↓↓↓↓↓↓↓↓
-- (void)imClientPaused:(AVIMClient *)imClient {
+- (void)imClientPaused:(LCIMClient *)imClient {
     [self updateConnectStatus];
 }
 
-- (void)imClientResuming:(AVIMClient *)imClient {
+- (void)imClientResuming:(LCIMClient *)imClient {
     [self updateConnectStatus];
 }
 
-- (void)imClientResumed:(AVIMClient *)imClient {
+- (void)imClientResumed:(LCIMClient *)imClient {
     [self updateConnectStatus];
 }
 // ↑↑↑↑↑↑↑↑↑↑↑↑ 网络状态变更 ↑↑↑↑↑↑↑↑↑↑↑↑
@@ -110,12 +111,12 @@
  @param conversation － 所属对话
  @param message - 具体的消息
  */
-- (void)conversation:(AVIMConversation *)conversation didReceiveCommonMessage:(AVIMMessage *)message{
+- (void)conversation:(LCIMConversation *)conversation didReceiveCommonMessage:(LCIMMessage *)message{
     if (!message.wb_isValidMessage) {
         return;
     }
     
-    AVIMTypedMessage *typedMessage = [message wb_getValidTypedMessage];
+    LCIMTypedMessage *typedMessage = [message wb_getValidTypedMessage];
     [self conversation:conversation didReceiveTypedMessage:typedMessage];
 }
 
@@ -124,7 +125,7 @@
  @param conversation － 所属对话
  @param message - 具体的消息
  */
-- (void)conversation:(AVIMConversation *)conversation didReceiveTypedMessage:(AVIMTypedMessage *)message{
+- (void)conversation:(LCIMConversation *)conversation didReceiveTypedMessage:(LCIMTypedMessage *)message{
     if (!message.wb_isValidMessage) {
         return;
     }
@@ -143,7 +144,7 @@
  云端不会主动将离线消息通知发送至客户端，而是由客户端负责主动拉取。
  Update unread message count, last message and receipt timestamp, etc.
  */
-- (void)conversation:(AVIMConversation *)conversation didUpdateForKey:(NSString *)key{
+- (void)conversation:(LCIMConversation *)conversation didUpdateForKey:(NSString *)key{
     dispatch_async(WBDBClientSqlQueue, ^{        
         if ([key isEqualToString:@"unreadMessagesCount"]) {
             [[WBChatListManager sharedInstance] insertConversationToList:conversation];
@@ -152,7 +153,7 @@
     
 }
 
-- (void)imClientClosed:(nonnull AVIMClient *)imClient error:(NSError * _Nullable)error {
+- (void)imClientClosed:(nonnull LCIMClient *)imClient error:(NSError * _Nullable)error {
     do_dispatch_async_mainQueue(^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kIMClientClosedInError object:error];
     });

@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "WBCoreConfiguration.h"
-#import <AVOSCloud/AVOSCloud.h>
-#import <AVOSCloudIM/AVOSCloudIM.h>
+#import <LeanCloudObjc/Foundation.h>
+#import <LeanCloudObjc/Realtime.h>
 #import "WBChatInfoModel.h"
 
 @class WBMessageModel;
@@ -31,7 +31,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(WBChatManager)
 - (void)createConversationWithName:(NSString *)name
                            members:(NSArray *)members
                  reuseConversation:(BOOL)reuseConversation
-                          callback:(AVIMConversationResultBlock)callback;
+                          callback:(LCIMConversationResultBlock)callback;
 
 #pragma mark - 往对话中发送消息。
 /*!
@@ -39,9 +39,9 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(WBChatManager)
  @param message － 消息对象
  @param callback － 结果回调
  */
-- (void)sendTargetConversation:(AVIMConversation *)targetConversation
+- (void)sendTargetConversation:(LCIMConversation *)targetConversation
                        message:(WBMessageModel *)message
-                      callback:(AVIMBooleanResultBlock)callback;
+                      callback:(LCIMBooleanResultBlock)callback;
 
 
 #pragma mark - 加载聊天记录
@@ -52,10 +52,10 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(WBChatManager)
  @param queryMessage 锚点message, 如果是nil:(该方法能确保在有网络时总是从服务端拉取最新的消息，首次拉取必须使用是nil或者sendTimestamp为0)
  @param limit 拉取的条数
  */
-- (void)queryTypedMessagesWithConversation:(AVIMConversation *)conversation
-                              queryMessage:(AVIMMessage * _Nullable)queryMessage
+- (void)queryTypedMessagesWithConversation:(LCIMConversation *)conversation
+                              queryMessage:(LCIMMessage * _Nullable)queryMessage
                                      limit:(NSInteger)limit
-                                     block:(AVIMArrayResultBlock)block;
+                                     block:(LCIMArrayResultBlock)block;
 
 #pragma mark - 获取会话的信息
 - (WBChatInfoModel *)chatInfoWithID:(NSString *)conversationId;

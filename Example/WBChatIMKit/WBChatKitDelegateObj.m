@@ -22,9 +22,9 @@
 
 #pragma mark - WBChatKitProtocol
 - (NSString *)memberNameWithClientID:(NSString *)clientId{
-    AVQuery *query = [AVQuery queryWithClassName:@"_User"];
-    AVObject *obj = [query getObjectWithId:clientId];
-    return ((AVUser *)obj).username;
+    LCUser *user = [LCUser objectWithObjectId:clientId];
+    [user fetchIfNeeded];
+    return user.username;
 }
 
 @end

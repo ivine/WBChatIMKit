@@ -31,7 +31,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBBackgroundManager)
 #pragma mark - Notification Action
 - (void)connectivityUpdated{
     
-    if ([WBChatKit sharedInstance].connectStatus == AVIMClientStatusOpened) {
+    if ([WBChatKit sharedInstance].connectStatus == LCIMClientStatusOpened) {
         
 //        [[WBChatListManager sharedInstance] fetchAllConversationsFromServer:^(NSArray<AVIMConversation *> * _Nullable conersations,
 //                                                                              NSError * _Nullable error)

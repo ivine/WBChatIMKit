@@ -69,7 +69,7 @@
                                               rowActionWithStyle:UITableViewRowActionStyleNormal
                                               title:@"删除"
                                               handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-                                                  AVIMConversation *conversation = cellModel.dataModel.conversation;
+                                                  LCIMConversation *conversation = cellModel.dataModel.conversation;
                                                   [[WBChatKit sharedInstance] deleteConversation:conversation.conversationId];
                                                   [self reloadListData];
                                               }];
@@ -85,16 +85,16 @@
     do_dispatch_async_mainQueue(^{
         WBLog(@"%@",@([WBChatKit sharedInstance].connectStatus));
         switch ([WBChatKit sharedInstance].connectStatus) {
-            case AVIMClientStatusOpening:
-            case AVIMClientStatusResuming:{
+            case LCIMClientStatusOpening:
+            case LCIMClientStatusResuming:{
                 WBLog(@"链接中...");
             }
                 break;
-            case AVIMClientStatusClosed:{
+            case LCIMClientStatusClosed:{
                 WBLog(@"未连接");
             }
                 break;
-            case AVIMClientStatusOpened:
+            case LCIMClientStatusOpened:
                 WBLog(@"连接正常");
                 [self reloadListData];
                 break;

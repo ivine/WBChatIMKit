@@ -6,12 +6,14 @@
 //  Copyright © 2018年 RedRain. All rights reserved.
 //
 
+#import <LeanCloudObjc/Realtime.h>
+
 #import "WBChatListModel.h"
 #import "NSDate+WBExt.h"
 
 @implementation WBChatListModel
 
-+ (instancetype)createWithConversation:(AVIMConversation *)conversation{
++ (instancetype)createWithConversation:(LCIMConversation *)conversation{
     WBChatListModel *list = [WBChatListModel new];
     list.conversationID = conversation.conversationId;
     list.conversation = conversation;

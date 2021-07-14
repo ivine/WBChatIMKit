@@ -5,8 +5,9 @@
 //  Created by RedRain on 2018/3/14.
 //
 
-#import <AVOSCloudIM/AVOSCloudIM.h>
+#import <LeanCloudObjc/Foundation.h>
+#import <LeanCloudObjc/Realtime.h>
 
-@interface WBGroupNotificationMessage : AVIMTypedMessage<AVIMTypedMessageSubclassing>
+@interface WBGroupNotificationMessage : LCIMTypedMessage<LCIMTypedMessageSubclassing>
 
 @end

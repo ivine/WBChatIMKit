@@ -12,9 +12,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [AVOSCloud setAllLogsEnabled:false];
-    [WBChatKit setAppId:@"O9I67dBpCiW8WcgoD89dCpla-gzGzoHsz"
-              clientKey:@"HwqdEYsaL3D3Xqr45Ryr0PW1"];
+    [LCApplication setAllLogsEnabled:true];
+    [WBChatKit setAppId:@"" clientKey:@"" serverURLString:@""];
     return YES;
 }
 

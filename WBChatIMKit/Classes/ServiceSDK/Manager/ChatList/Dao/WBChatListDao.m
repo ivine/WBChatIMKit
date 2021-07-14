@@ -99,7 +99,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListDao)
     });
 }
 
-- (void)loadChatListWithClient:(AVIMClient *)client result:(void (^)(NSArray<WBChatListModel *> *modelArray))resultBlock{
+- (void)loadChatListWithClient:(LCIMClient *)client result:(void (^)(NSArray<WBChatListModel *> *modelArray))resultBlock{
     dispatch_async(WBDBClientSqlQueue, ^{
         
         __block NSMutableArray *chatListArray = [[NSMutableArray alloc] init];
@@ -159,12 +159,12 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListDao)
     return isExist;
 
 }
-#pragma mark - 获取到一个AVIMConversation
+#pragma mark - 获取到一个LCIMConversation
 
 /**
  单独获取某个WBChatListModel对象
  */
-- (WBChatListModel *)chatListModelWithConversationId:(NSString *)conversationId client:(nonnull AVIMClient *)client{
+- (WBChatListModel *)chatListModelWithConversationId:(NSString *)conversationId client:(nonnull LCIMClient *)client{
     if (conversationId == nil) {
         return nil;
     }
@@ -187,20 +187,20 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListDao)
 }
 
 #pragma mark - Private
-- (NSData *)dataFromConversation:(AVIMConversation *)conversation {
-    AVIMKeyedConversation *keydConversation = [conversation keyedConversation];
+- (NSData *)dataFromConversation:(LCIMConversation *)conversation {
+    LCIMKeyedConversation *keydConversation = [conversation keyedConversation];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:keydConversation];
     return data;
 }
 
-- (WBChatListModel *)createChatListModelFromResultSet:(FMResultSet *)resultSet client:(AVIMClient *)client {
+- (WBChatListModel *)createChatListModelFromResultSet:(FMResultSet *)resultSet client:(LCIMClient *)client {
     WBChatListModel *listModel = [WBChatListModel new];
     
     
     if (client) {
         NSData *data = [resultSet dataForColumn:WBChatListDaoKeyData];
-        AVIMKeyedConversation *keyedConversation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        AVIMConversation *conversation = [client conversationWithKeyedConversation:keyedConversation];
+        LCIMKeyedConversation *keyedConversation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        LCIMConversation *conversation = [client conversationWithKeyedConversation:keyedConversation];
         listModel.conversation = conversation;
     }
     
@@ -261,7 +261,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListDao)
     return result;
 }
 
-- (NSMutableArray *)chatListFromDB:(FMDatabase *)db client:(AVIMClient *)client{
+- (NSMutableArray *)chatListFromDB:(FMDatabase *)db client:(LCIMClient *)client{
     NSMutableArray *chatListArray = [NSMutableArray new];
     // 1. 取置顶会话项
     NSString *selectSql =

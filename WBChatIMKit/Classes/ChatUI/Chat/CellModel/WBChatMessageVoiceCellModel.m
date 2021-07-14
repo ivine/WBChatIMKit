@@ -44,7 +44,7 @@
     CGFloat timeWidth = 2 + [[NSString stringWithFormat:@"%.0f'",messageModel.voiceDuration.floatValue] lcg_sizeWithFont:[UIFont systemFontOfSize:14]].width;
     
     //区分收到的消息及发送的消息
-    if (messageModel.content.ioType == AVIMMessageIOTypeIn) {
+    if (messageModel.content.ioType == LCIMMessageIOTypeIn) {
         // 气泡
         _voiceBubbleFrame = CGRectMake(headerMarginSpace + headerSize.width + headerBubbleSpace, headerMarginSpace, voiceSize.width, voiceSize.height);
         

@@ -2,9 +2,9 @@
 //  AVIMTypedMessage+WBExtension.h
 //  WBChat
 
-#import <AVOSCloudIM/AVOSCloudIM.h>
+#import <LeanCloudObjc/Realtime.h>
 #import "WBMessageModel.h"
-@interface AVIMTypedMessage (WBExtension)
+@interface LCIMTypedMessage (WBExtension)
 
 - (void)wb_setAttributesObject:(id)object forKey:(NSString *)key;
 

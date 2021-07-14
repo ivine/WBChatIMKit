@@ -12,17 +12,8 @@
 // 第三方库, 要放在最上面
 #import "WBHUD.h"
 
-#if __has_include(<AVOSCloud/AVOSCloud.h>)
-#import <AVOSCloud/AVOSCloud.h>
-#else
-#import "AVOSCloud.h"
-#endif
-
-#if __has_include(<AVOSCloudIM/AVOSCloudIM.h>)
-#import <AVOSCloudIM/AVOSCloudIM.h>
-#else
-#import "AVOSCloudIM.h"
-#endif
+#import <LeanCloudObjc/Foundation.h>
+#import <LeanCloudObjc/Realtime.h>
 
 // 分类
 #import "WBConst.h"

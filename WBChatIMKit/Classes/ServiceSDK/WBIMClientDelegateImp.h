@@ -6,8 +6,8 @@
 //  Copyright © 2018年 RedRain. All rights reserved.
 //
 
-#import <AVOSCloud/AVOSCloud.h>
-#import <AVOSCloudIM/AVOSCloudIM.h>
+#import <LeanCloudObjc/Foundation.h>
+#import <LeanCloudObjc/Realtime.h>
 
 #define kIMClientClosedInError @"kIMClientClosedInError"
 
@@ -18,7 +18,7 @@
 /*!
  * AVIMClient 实例
  */
-@property (nonatomic, strong, readonly) AVIMClient *client;
+@property (nonatomic, strong, readonly) LCIMClient *client;
 
 /**
  *  是否和聊天服务器连通

@@ -24,7 +24,7 @@
     }
     
     
-    AVIMTypedMessage *typedMessage = [dataModel.conversation.lastMessage wb_getValidTypedMessage];
+    LCIMTypedMessage *typedMessage = [dataModel.conversation.lastMessage wb_getValidTypedMessage];
     NSString *lastString = @"";
     
     switch (typedMessage.messageType_wb) {

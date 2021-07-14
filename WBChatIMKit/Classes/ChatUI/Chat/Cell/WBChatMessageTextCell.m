@@ -60,7 +60,7 @@
 
     
     
-    if(cellModel.messageModel.content.ioType == AVIMMessageIOTypeIn){
+    if(cellModel.messageModel.content.ioType == LCIMMessageIOTypeIn){
         self.mLabel.textColor=[UIColor blackColor];
     }
     else{

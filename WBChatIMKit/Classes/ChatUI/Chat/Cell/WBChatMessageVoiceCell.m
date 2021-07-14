@@ -82,12 +82,12 @@
     self.bubbleImageView.frame = voiceCellFrameModel.voiceBubbleFrame;
     
     
-    AVIMAudioMessage *audioM = (AVIMAudioMessage*)voiceCellFrameModel.messageModel.content;
+    LCIMAudioMessage *audioM = (LCIMAudioMessage*)voiceCellFrameModel.messageModel.content;
     self.voiceTimeNumLabel.text = [NSString stringWithFormat:@"%.0f'",voiceCellFrameModel.messageModel.voiceDuration.floatValue];
     self.voiceTimeNumLabel.frame = voiceCellFrameModel.voiceTimeNumLabelFrame;
-    self.voiceTimeNumLabel.textColor = audioM.ioType == AVIMMessageIOTypeIn ? [UIColor blackColor] : [UIColor whiteColor];
+    self.voiceTimeNumLabel.textColor = audioM.ioType == LCIMMessageIOTypeIn ? [UIColor blackColor] : [UIColor whiteColor];
     
-    UIImageView *waveImageView = [voiceCellFrameModel messageVoiceAnimationImageViewWithBubbleMessageType:(audioM.ioType != AVIMMessageIOTypeIn)];
+    UIImageView *waveImageView = [voiceCellFrameModel messageVoiceAnimationImageViewWithBubbleMessageType:(audioM.ioType != LCIMMessageIOTypeIn)];
     [self.voiceWaveImageView removeFromSuperview];
     [self.bubbleImageView addSubview:waveImageView];
     waveImageView.frame = voiceCellFrameModel.voiceWaveImageFrame;

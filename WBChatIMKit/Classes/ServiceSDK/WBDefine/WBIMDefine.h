@@ -12,8 +12,8 @@
 #define WBIMDefine
 
 
-#import <AVOSCloud/AVOSCloud.h>
-#import <AVOSCloudIM/AVOSCloudIM.h>
+#import <LeanCloudObjc/Foundation.h>
+#import <LeanCloudObjc/LCIMCommon.h>
 
 
 #define WBIMConversationFindErrorDomain @"WBIMConversationFindErrorDomain" ///< 查询会话信息

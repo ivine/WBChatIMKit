@@ -14,32 +14,32 @@
 @implementation WBChatMessageBaseCellModel
 
 + (instancetype)modelWithMessageModel:(WBMessageModel *)messageModel{
-    AVIMTypedMessage *typedMessage = [messageModel.content wb_getValidTypedMessage];
+    LCIMTypedMessage *typedMessage = [messageModel.content wb_getValidTypedMessage];
     
     // 默认使用发送中
     
     WBChatMessageBaseCellModel *model = nil;
     switch (typedMessage.mediaType) {
-        case kAVIMMessageMediaTypeText:
+        case kLCIMMessageMediaTypeText:
              model = [WBChatMessageTextCellModel new];
             break;
-        case kAVIMMessageMediaTypeImage:
+        case kLCIMMessageMediaTypeImage:
             model = [WBChatMessageImageCellModel new];
 
             break;
-        case kAVIMMessageMediaTypeAudio:
+        case kLCIMMessageMediaTypeAudio:
             model = [WBChatMessageVoiceCellModel new];
             break;
-        case kAVIMMessageMediaTypeVideo:
+        case kLCIMMessageMediaTypeVideo:
             
             break;
-        case kAVIMMessageMediaTypeLocation:
+        case kLCIMMessageMediaTypeLocation:
             
             break;
-        case kAVIMMessageMediaTypeFile:
+        case kLCIMMessageMediaTypeFile:
             
             break;
-        case kAVIMMessageMediaTypeRecalled:
+        case kLCIMMessageMediaTypeRecalled:
             model = [WBChatMessageRecallCellModel new];
             break;
         default:
@@ -84,7 +84,7 @@
         _messageStatusRectFrame = CGRectZero;
         _myHeaderRectFrame = CGRectZero;
         
-    } else if (messageModel.content.ioType == AVIMMessageIOTypeIn) {
+    } else if (messageModel.content.ioType == LCIMMessageIOTypeIn) {
         // 收到的消息的状态就是MessageStatusNone
         _headerRectFrame = CGRectMake(headerMarginSpace, headerMarginSpace, headerSize.width, headerSize.height);
         

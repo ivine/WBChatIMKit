@@ -7,8 +7,8 @@
 //
 
 
-#import <AVOSCloud/AVOSCloud.h>
-#import <AVOSCloudIM/AVOSCloudIM.h>
+#import <LeanCloudObjc/Foundation.h>
+#import <LeanCloudObjc/Realtime.h>
 #import "WBIMDefine.h"
 #import "WBChatKitProtocol.h"
 @class WBMessageModel;
@@ -44,18 +44,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)sharedInstance;
 
-- (AVIMClient *)usingClient;
+- (LCIMClient *)usingClient;
 
 - (BOOL)connect;
 
-- (AVIMClientStatus)connectStatus;
+- (LCIMClientStatus)connectStatus;
 
 #pragma mark - 设置应用Id和Key
 
 /*!
- 设置appId 和 appKey 
+ 设置appId、appKey、serverURLString
  */
-+ (void)setAppId:(NSString *)appId clientKey:(NSString *)appKey;
++ (void)setAppId:(NSString *)appId clientKey:(NSString *)appKey serverURLString:(NSString *)serverURLString;
 
 #pragma mark - 连接服务器
 /**
@@ -93,8 +93,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param queryMessage 锚点message, 如果是nil:(该方法能确保在有网络时总是从服务端拉取最新的消息，首次拉取必须使用是nil或者sendTimestamp为0)
  @param limit 拉取的条数
  */
-- (void)queryTypedMessagesWithConversation:(AVIMConversation *)conversation
-                              queryMessage:(AVIMMessage * _Nullable)queryMessage
+- (void)queryTypedMessagesWithConversation:(LCIMConversation *)conversation
+                              queryMessage:(LCIMMessage * _Nullable)queryMessage
                                      limit:(NSInteger)limit
                                    success:(void (^)(NSArray<WBMessageModel *> *messageArray))successBlock
                                      error:(void (^)(NSError *error))errorBlock;
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)createConversationWithName:(NSString *)name
                            members:(NSArray *)members
-                           success:(void (^)(AVIMConversation *convObj))successBlock
+                           success:(void (^)(LCIMConversation *convObj))successBlock
                              error:(void (^)(NSError *error))errorBlock;
 
 
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
  往对话中发送消息。
  @param message － 消息对象
  */
-- (void)sendTargetConversation:(AVIMConversation *)targetConversation
+- (void)sendTargetConversation:(LCIMConversation *)targetConversation
                        message:(WBMessageModel *)message
                        success:(void (^)(WBMessageModel *aMessage))successBlock
                          error:(void (^)(WBMessageModel *aMessage,NSError *error))errorBlock;
@@ -145,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param conversation 被阅读的会话
  */
-- (void)readConversation:(AVIMConversation *)conversation;
+- (void)readConversation:(LCIMConversation *)conversation;
 
 #pragma mark - 删除一个会话
 /**

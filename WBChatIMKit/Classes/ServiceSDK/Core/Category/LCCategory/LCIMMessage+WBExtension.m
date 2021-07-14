@@ -1,13 +1,13 @@
 //
 //  AVIMMessage+WBExtension.m
 
-#import "AVIMMessage+WBExtension.h"
+#import "LCIMMessage+WBExtension.h"
 #import "NSBundle+LCCKExtension.h"
 #import "WBIMDefine.h"
 #import "WBServiceSDKHeaders.h"
 
 
-@implementation AVIMMessage (WBExtension)
+@implementation LCIMMessage (WBExtension)
 
 - (BOOL)wb_isValidMessage {
     id messageToCheck = (id)self;
@@ -17,18 +17,18 @@
     return YES;
 }
 
-- (AVIMTypedMessage *)wb_getValidTypedMessage {
+- (LCIMTypedMessage *)wb_getValidTypedMessage {
     if (!self.wb_isValidMessage) {
         return nil;
     }
-    if ([self isKindOfClass:[AVIMTypedMessage class]]) {
-        return (AVIMTypedMessage *)self;
+    if ([self isKindOfClass:[LCIMTypedMessage class]]) {
+        return (LCIMTypedMessage *)self;
     }
     NSString *messageText;
     NSDictionary *attr;
-    if ([[self class] isSubclassOfClass:[AVIMMessage class]]) {
+    if ([[self class] isSubclassOfClass:[LCIMMessage class]]) {
         //当存在无法识别的自定义消息，SDK会返回 AVIMMessage 类型
-        AVIMMessage *message = self;
+        LCIMMessage *message = self;
         NSString *jsonString = message.content;
         NSDictionary *json = [jsonString wb_JSONValue];
         do {
@@ -47,7 +47,7 @@
             break;
         } while (NO);
     }
-    AVIMTextMessage *typedMessage = [AVIMTextMessage messageWithText:messageText attributes:attr];
+    LCIMTextMessage *typedMessage = [LCIMTextMessage messageWithText:messageText attributes:attr];
     [typedMessage setValue:self.conversationId forKey:@"conversationId"];
     [typedMessage setValue:self.messageId forKey:@"messageId"];
     [typedMessage setValue:@(self.sendTimestamp) forKey:@"sendTimestamp"];

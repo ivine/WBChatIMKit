@@ -5,9 +5,9 @@
 //  Created by RedRain on 2018/3/14.
 //
 
-#import <AVOSCloudIM/AVOSCloudIM.h>
+#import <LeanCloudObjc/Realtime.h>
 #import "WBIMDefine.h"
-@interface AVIMConversation (WBExtension)
+@interface LCIMConversation (WBExtension)
 
 /**
  得到会话的类型

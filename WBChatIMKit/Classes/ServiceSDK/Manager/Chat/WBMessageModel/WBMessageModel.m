@@ -20,22 +20,22 @@
 @implementation WBMessageModel
 
 
-+ (instancetype)createWithTypedMessage:(AVIMTypedMessage *)message{
++ (instancetype)createWithTypedMessage:(LCIMTypedMessage *)message{
     WBMessageModel *messageModel = [WBMessageModel new];
     messageModel.status = message.status;
     messageModel.content = message;
     
-//    kAVIMMessageMediaTypeNone = 0,
-//    kAVIMMessageMediaTypeText = -1,
-//    kAVIMMessageMediaTypeImage = -2,
-//    kAVIMMessageMediaTypeAudio = -3,
-//    kAVIMMessageMediaTypeVideo = -4,
-//    kAVIMMessageMediaTypeLocation = -5,
-//    kAVIMMessageMediaTypeFile = -6,
-//    kAVIMMessageMediaTypeRecalled = -127
+//    kLCIMMessageMediaTypeNone = 0,
+//    kLCIMMessageMediaTypeText = -1,
+//    kLCIMMessageMediaTypeImage = -2,
+//    kLCIMMessageMediaTypeAudio = -3,
+//    kLCIMMessageMediaTypeVideo = -4,
+//    kLCIMMessageMediaTypeLocation = -5,
+//    kLCIMMessageMediaTypeFile = -6,
+//    kLCIMMessageMediaTypeRecalled = -127
     
     switch (message.mediaType) {
-        case kAVIMMessageMediaTypeImage:{
+        case kLCIMMessageMediaTypeImage:{
             NSDictionary *info = message.attributes;
             NSString *encodedImgString = info[kMessageThumbImageKey];
             messageModel.thumbImage = [UIImage imageWithData:[[NSData alloc] initWithBase64EncodedString:encodedImgString options:0]];
@@ -49,7 +49,7 @@
             if ([fileManager fileExistsAtPath:imageFilePath]){
                 imagePath = imageFilePath;
             }else{
-                AVIMImageMessage *imageMsg = (AVIMImageMessage*)message;
+                LCIMImageMessage *imageMsg = (LCIMImageMessage*)message;
                 imagePath = imageMsg.file.url;
             }
             
@@ -57,8 +57,8 @@
             
         }
             break;
-        case kAVIMMessageMediaTypeAudio:{
-            AVIMAudioMessage *audioMsg = (AVIMAudioMessage*)message;
+        case kLCIMMessageMediaTypeAudio:{
+            LCIMAudioMessage *audioMsg = (LCIMAudioMessage*)message;
             messageModel.voiceDuration = @(audioMsg.duration).stringValue;
             
             
@@ -82,9 +82,9 @@
 
 + (instancetype)createWithText:(NSString *)text{
     
-    AVIMTextMessage *messageText = [AVIMTextMessage messageWithText:text attributes:nil];
+    LCIMTextMessage *messageText = [LCIMTextMessage messageWithText:text attributes:nil];
     WBMessageModel *message = [WBMessageModel new];
-    message.status = AVIMMessageStatusSending;
+    message.status = LCIMMessageStatusSending;
     message.content = messageText;
     return message;
 }
@@ -104,11 +104,11 @@
     NSData *thumbData = [normalImage wb_compressWithMaxKBytes:3];
     
     WBMessageModel *messageModel = [WBMessageModel new];
-    messageModel.status = AVIMMessageStatusSending;
+    messageModel.status = LCIMMessageStatusSending;
     messageModel.thumbImage = [UIImage imageWithData:thumbData];
     messageModel.imagePath = imageFilePath;
     
-    AVIMImageMessage *imgMsg = [AVIMImageMessage messageWithText:nil
+    LCIMImageMessage *imgMsg = [LCIMImageMessage messageWithText:nil
                                                 attachedFilePath:imageFilePath
                                                       attributes:@{kMessageThumbImageKey:[thumbData base64EncodedStringWithOptions:0],
                                                                    kMessageLocalImgNameKey:imageName}];
@@ -119,10 +119,10 @@
 }
 
 + (instancetype)createWithAudioPath:(NSString *)audioPath duration:(NSNumber *)duration{
-    AVIMAudioMessage *audioMsg = [AVIMAudioMessage messageWithText:nil attachedFilePath:audioPath attributes:nil];
+    LCIMAudioMessage *audioMsg = [LCIMAudioMessage messageWithText:nil attachedFilePath:audioPath attributes:nil];
 
     WBMessageModel *messageModel = [WBMessageModel new];
-    messageModel.status = AVIMMessageStatusSending;
+    messageModel.status = LCIMMessageStatusSending;
     messageModel.content = audioMsg;
     messageModel.voiceDuration = duration.stringValue;
     messageModel.audioPath = audioPath;

@@ -134,7 +134,7 @@
  */
 - (void)loadMoreMessage{
     
-    AVIMMessage *lastMessage = nil;
+    LCIMMessage *lastMessage = nil;
     for (WBChatMessageBaseCellModel *cellModel in self.dataArray) {
         if (cellModel.messageModel.content != nil) {
             lastMessage = cellModel.messageModel.content;

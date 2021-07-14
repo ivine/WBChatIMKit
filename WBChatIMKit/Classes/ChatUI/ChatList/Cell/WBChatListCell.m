@@ -117,7 +117,7 @@
     self.chatTimeLabel.frame = cellModel.chatTimeF;
     NSString *timeString = cellModel.dataModel.conversation.lastMessageAt.wb_chatListTimeString;
     if (timeString.length == 0) {
-        timeString = cellModel.dataModel.conversation.updateAt.wb_chatListTimeString;
+        timeString = cellModel.dataModel.conversation.updatedAt.wb_chatListTimeString;
     }
     self.chatTimeLabel.text = timeString;
     

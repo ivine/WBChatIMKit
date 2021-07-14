@@ -33,7 +33,7 @@
     CGFloat progressWidth = config.imageProgressSize.width;
     
     //区分收到的消息及发送的消息
-    if (messageModel.content.ioType == AVIMMessageIOTypeIn) {
+    if (messageModel.content.ioType == LCIMMessageIOTypeIn) {
         _imageRectFrame = CGRectMake(headerMarginSpace + headerSize.width + headerBubbleSpace, headerBubbleSpace, imageSize.width, imageSize.height);
     } else {
         _imageRectFrame = CGRectMake(kWBScreenWidth - headerMarginSpace - headerSize.width - headerBubbleSpace - imageSize.width, headerMarginSpace, imageSize.width, imageSize.height);

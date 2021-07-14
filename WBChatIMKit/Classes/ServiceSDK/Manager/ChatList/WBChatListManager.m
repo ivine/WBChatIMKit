@@ -21,7 +21,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListManager)
 - (void)fetchAllConversationsFromServer:(void(^_Nullable)(NSArray<WBChatListModel *> * _Nullable conersations,
                                                           NSError * _Nullable error))block {
     
-    [self fetchConversationsWithCachePolicy:kAVIMCachePolicyIgnoreCache block:block];
+    [self fetchConversationsWithCachePolicy:kLCIMCachePolicyIgnoreCache block:block];
 
 }
 - (void)fetchAllConversationsFromLocal:(void(^_Nullable)(NSArray<WBChatListModel *> * _Nullable conersations,
@@ -35,12 +35,12 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListManager)
     }];
 }
 
-- (void)fetchConversationsWithCachePolicy:(AVIMCachePolicy)chachePolicy block:(id)block{
-    AVIMConversationQuery *orConversationQuery = [self.client conversationQuery];
+- (void)fetchConversationsWithCachePolicy:(LCIMCachePolicy)chachePolicy block:(id)block{
+    LCIMConversationQuery *orConversationQuery = [self.client conversationQuery];
     
     orConversationQuery.cachePolicy = chachePolicy;
-    orConversationQuery.option = AVIMConversationQueryOptionWithMessage;
-    [orConversationQuery findConversationsWithCallback:^(NSArray<AVIMConversation *> * _Nullable conversations, NSError * _Nullable error) {
+    orConversationQuery.option = LCIMConversationQueryOptionWithMessage;
+    [orConversationQuery findConversationsWithCallback:^(NSArray<LCIMConversation *> * _Nullable conversations, NSError * _Nullable error) {
         
         [self fetchAllConversationsFromLocal:^(NSArray<WBChatListModel *> * _Nullable localConversations, NSError * _Nullable error) {
             NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:conversations.count];
@@ -48,7 +48,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListManager)
             
             // 1.把远端的信息保存成字典模式
             NSMutableDictionary *mDic = [NSMutableDictionary new];
-            for (AVIMConversation *conver in conversations) {
+            for (LCIMConversation *conver in conversations) {
                 mDic[conver.conversationId] = conver;
             }
             
@@ -56,7 +56,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListManager)
             
             // 2.以本地的最近联系人列表为准, 更新信息
             for (WBChatListModel *localListModel in localConversations) {
-                AVIMConversation *conver = mDic[localListModel.conversationID];
+                LCIMConversation *conver = mDic[localListModel.conversationID];
                 if (conver) {
                     WBChatListModel *listModel = [WBChatListModel createWithConversation:conver];
                     // 2.1.从服务器获取的信息, 使用本地的未读消息数量
@@ -73,7 +73,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListManager)
             
             // PS: 远端的最近联系人列表和本地是有区别的, 本地列表的新增是通过收到消息插入的.
             
-            !block ?: ((AVIMArrayResultBlock)block)(tempArray, error);
+            !block ?: ((LCIMArrayResultBlock)block)(tempArray, error);
         }];
         
         
@@ -85,9 +85,9 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListManager)
  *  根据 conversationId 获取对话
  *  @param conversationId   对话的 id
  */
-- (void)fetchConversationWithConversationId:(NSString *)conversationId callback:(void (^)(AVIMConversation *conversation, NSError *error))callback {
+- (void)fetchConversationWithConversationId:(NSString *)conversationId callback:(void (^)(LCIMConversation *conversation, NSError *error))callback {
     NSAssert(conversationId.length > 0, @"Conversation id is nil");
-    AVIMConversation *conversation = [self.client conversationForId:conversationId];
+    LCIMConversation *conversation = [self.client conversationForId:conversationId];
     if (conversation) {
         !callback ?: callback(conversation, nil);
         return;
@@ -121,13 +121,13 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListManager)
  *  根据 conversationId数组 获取多个指定的会话信息
  */
 - (void)fetchConversationsWithConversationIds:(NSSet *)conversationIds
-                                     callback:(void (^_Nullable)(NSArray<AVIMConversation *> * _Nullable conersations,
+                                     callback:(void (^_Nullable)(NSArray<LCIMConversation *> * _Nullable conersations,
                                                                  NSError * _Nullable error))callback {
-    AVIMConversationQuery *query = [self.client conversationQuery];
+    LCIMConversationQuery *query = [self.client conversationQuery];
     [query whereKey:@"objectId" containedIn:[conversationIds allObjects]];
     query.limit = conversationIds.count;
-    query.option = AVIMConversationQueryOptionWithMessage;
-    query.cacheMaxAge = kAVIMCachePolicyIgnoreCache;
+    query.option = LCIMConversationQueryOptionWithMessage;
+    query.cacheMaxAge = kLCIMCachePolicyIgnoreCache;
     [query findConversationsWithCallback: ^(NSArray *objects, NSError *error) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
             [objects makeObjectsPerformSelector:@selector(lastMessage)];
@@ -138,8 +138,8 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatListManager)
     }];
 }
 #pragma mark - 更新最近一条消息记录到List
-static AVIMConversation * staticLastConversation = nil;
-- (void)insertConversationToList:(AVIMConversation *)conversation{
+static LCIMConversation * staticLastConversation = nil;
+- (void)insertConversationToList:(LCIMConversation *)conversation{
     
     if (conversation == nil) {
         return;
@@ -153,7 +153,7 @@ static AVIMConversation * staticLastConversation = nil;
     [self pushChatListUpdateAction:conversation];
     
 }
-- (void)pushChatListUpdateAction:(AVIMConversation *)conversation{
+- (void)pushChatListUpdateAction:(LCIMConversation *)conversation{
     NSMutableDictionary *mDic = [NSMutableDictionary new];
     if (conversation) {
         mDic[WBMessageConversationKey] = conversation;
@@ -197,7 +197,7 @@ static AVIMConversation * staticLastConversation = nil;
  
  @param conversation 被阅读的会话
  */
-- (void)readConversation:(AVIMConversation *)conversation{
+- (void)readConversation:(LCIMConversation *)conversation{
     // 设置某个会话为已读
     [conversation readInBackground];
     
@@ -206,7 +206,7 @@ static AVIMConversation * staticLastConversation = nil;
 }
 
 #pragma mark - Private Methods
-- (AVIMClient *)client{
+- (LCIMClient *)client{
     return [WBChatKit sharedInstance].usingClient;
 }
 @end

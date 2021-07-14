@@ -44,20 +44,20 @@
     return _sharedWBChatKit;
 }
 
-- (AVIMClient *)usingClient{
+- (LCIMClient *)usingClient{
     return self.clientImp.client;
 }
 
 - (BOOL)connect{
     return self.clientImp.connect;
 }
-- (AVIMClientStatus)connectStatus{
+- (LCIMClientStatus)connectStatus{
     return self.usingClient.status;
 }
 #pragma mark - 设置id和key
-+ (void)setAppId:(NSString *)appId clientKey:(NSString *)appKey {
-    [AVIMClient setUnreadNotificationEnabled:YES];
-    [AVOSCloud setApplicationId:appId clientKey:appKey];
++ (void)setAppId:(NSString *)appId clientKey:(NSString *)appKey serverURLString:(NSString *)serverURLString {
+//    [LCIMClient setUnreadNotificationEnabled:YES];
+    [LCApplication setApplicationId:appId clientKey:appKey serverURLString:serverURLString];
     [WBChatKit sharedInstance].appId = appId;
     [WBChatKit sharedInstance].appKey = appKey;
 }
@@ -114,8 +114,8 @@
  @param queryMessage 锚点message, 如果是nil:(该方法能确保在有网络时总是从服务端拉取最新的消息，首次拉取必须使用是nil或者sendTimestamp为0)
  @param limit 拉取的条数
  */
-- (void)queryTypedMessagesWithConversation:(AVIMConversation *)conversation
-                              queryMessage:(AVIMMessage * _Nullable)queryMessage
+- (void)queryTypedMessagesWithConversation:(LCIMConversation *)conversation
+                              queryMessage:(LCIMMessage * _Nullable)queryMessage
                                      limit:(NSInteger)limit
                                    success:(void (^)(NSArray<WBMessageModel *> *messageArray))successBlock
                                      error:(void (^)(NSError *error))errorBlock{
@@ -128,7 +128,7 @@
              errorBlock(error);
          }else if(successBlock){
              NSMutableArray *temp = [NSMutableArray new];
-             for (AVIMTypedMessage *imMessage in array) {
+             for (LCIMTypedMessage *imMessage in array) {
                  WBMessageModel *message = [WBMessageModel createWithTypedMessage:imMessage];
                  [temp addObject:message];
              }
@@ -147,14 +147,14 @@
  */
 - (void)createConversationWithName:(NSString *)name
                            members:(NSArray *)members
-                           success:(void (^)(AVIMConversation *convObj))successBlock
+                           success:(void (^)(LCIMConversation *convObj))successBlock
                              error:(void (^)(NSError *error))errorBlock{
     
     [[WBChatManager sharedInstance]
      createConversationWithName:name
      members:members
      reuseConversation:YES
-     callback:^(AVIMConversation * _Nullable con, NSError * _Nullable error)
+     callback:^(LCIMConversation * _Nullable con, NSError * _Nullable error)
      {
          if (error && errorBlock) {
              errorBlock(error);
@@ -168,7 +168,7 @@
  往对话中发送消息。
  @param message － 消息对象
  */
-- (void)sendTargetConversation:(AVIMConversation *)targetConversation
+- (void)sendTargetConversation:(LCIMConversation *)targetConversation
                        message:(WBMessageModel *)message
                        success:(nonnull void (^)(WBMessageModel *aMessage))successBlock
                          error:(nonnull void (^)(WBMessageModel *aMessage,NSError * _Nonnull))errorBlock{
@@ -185,13 +185,13 @@
              
              dispatch_async(dispatch_get_main_queue(), ^(void) {
                  if (error && errorBlock) {
-                     message.status = AVIMMessageStatusFailed;
+                     message.status = LCIMMessageStatusFailed;
                      
                      errorBlock(message,error);
                      
                  }else if(successBlock){
                      
-                     message.status = AVIMMessageStatusSent;
+                     message.status = LCIMMessageStatusSent;
                      successBlock(message);
                  }
              });
@@ -209,7 +209,7 @@
     
     [self createConversationWithName:userID
                              members:@[userID]
-                             success:^(AVIMConversation * _Nonnull convObj)
+                             success:^(LCIMConversation * _Nonnull convObj)
     {
         [self sendTargetConversation:convObj message:message success:successBlock error:errorBlock];
         
@@ -227,7 +227,7 @@
  
  @param conversation 被阅读的会话
  */
-- (void)readConversation:(AVIMConversation *)conversation{
+- (void)readConversation:(LCIMConversation *)conversation{
     [[WBChatListManager sharedInstance] readConversation:conversation];
 }
 

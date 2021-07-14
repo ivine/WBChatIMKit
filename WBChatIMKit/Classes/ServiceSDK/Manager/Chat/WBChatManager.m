@@ -6,6 +6,8 @@
 //  Copyright © 2018年 RedRain. All rights reserved.
 //
 
+#import <LeanCloudObjc/Realtime.h>
+
 #import "WBChatManager.h"
 #import "WBCoreConfiguration.h"
 #import "WBChatKit.h"
@@ -25,7 +27,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatManager)
 - (void)createConversationWithName:(NSString *)name
                            members:(NSArray *)members
                  reuseConversation:(BOOL)reuseConversation
-                          callback:(AVIMConversationResultBlock)callback {
+                          callback:(LCIMConversationResultBlock)callback {
     if (!self.connect) {
         if (callback) {
             callback(nil,[NSError wb_description:@"请检测当前网络状态"]);
@@ -56,9 +58,11 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatManager)
         members = tempArray;
     }
     
+    LCIMConversationCreationOption *creationOption = [LCIMConversationCreationOption new];
+    creationOption.name = name;
     
     // 1. YES: 如果相同 members 的对话已经存在，将返回原来的对话  NO:创建一个新对话
-    AVIMConversationOption options = reuseConversation ? AVIMConversationOptionUnique : AVIMConversationOptionNone ;
+    LCIMConversationQueryOption options = reuseConversation ? LCIMConversationQueryOptionWithMessage : LCIMConversationQueryOptionNone ;
     
     // 2. 区分会话的类型
     WBConversationType type = WBConversationTypeSingle;
@@ -66,8 +70,11 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatManager)
         // 除去自己,还有第三个人
         type = WBConversationTypeDiscussion;
     }
+    creationOption.attributes = @{ WBIM_CONVERSATION_TYPE : @(type) };
     
-    [self.client createConversationWithName:name clientIds:members attributes:@{ WBIM_CONVERSATION_TYPE : @(type) } options:options callback:callback];
+    [self.client createConversationWithClientIds:members option:creationOption callback:callback];
+    
+//    [[self client] createConversationWithName:name clientIds:members attributes:@{ WBIM_CONVERSATION_TYPE : @(type) } options:options callback:callback];
 }
 
 #pragma mark - 往对话中发送消息。
@@ -76,9 +83,9 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatManager)
  @param message － 消息对象
  @param callback － 结果回调
  */
-- (void)sendTargetConversation:(AVIMConversation *)targetConversation
+- (void)sendTargetConversation:(LCIMConversation *)targetConversation
                        message:(WBMessageModel *)message
-                      callback:(AVIMBooleanResultBlock)callback{
+                      callback:(LCIMBooleanResultBlock)callback{
     
     if (!targetConversation) {
         !callback ? : callback(NO,[NSError wb_description:@"目标会话信息有误."]);
@@ -103,16 +110,16 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatManager)
 }
 #pragma mark - 加载聊天记录
 
-- (void)queryTypedMessagesWithConversation:(AVIMConversation *)conversation
-                              queryMessage:(AVIMMessage *)queryMessage
+- (void)queryTypedMessagesWithConversation:(LCIMConversation *)conversation
+                              queryMessage:(LCIMMessage *)queryMessage
                                      limit:(NSInteger)limit
-                                     block:(AVIMArrayResultBlock)block {
+                                     block:(LCIMArrayResultBlock)block {
     
-    AVIMArrayResultBlock callback = ^(NSArray *messages, NSError *error) {
+    LCIMArrayResultBlock callback = ^(NSArray *messages, NSError *error) {
         
-        //以下过滤为了避免非法的消息，引起崩溃，确保展示的只有 AVIMTypedMessage 类型
+        //以下过滤为了避免非法的消息，引起崩溃，确保展示的只有 LCIMTypedMessage 类型
         NSMutableArray *typedMessages = [NSMutableArray array];
-        for (AVIMTypedMessage *message in messages) {
+        for (LCIMTypedMessage *message in messages) {
             [typedMessages addObject:[message wb_getValidTypedMessage]];
         }
         !block ?: block(typedMessages, error);
@@ -143,7 +150,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatManager)
 }
 
 #pragma mark - Private Methods
-- (AVIMClient *)client{
+- (LCIMClient *)client{
     return [WBChatKit sharedInstance].usingClient;
 }
 - (BOOL)connect{

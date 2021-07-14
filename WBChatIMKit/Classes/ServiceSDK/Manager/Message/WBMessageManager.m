@@ -12,7 +12,7 @@
 @implementation WBMessageManager
 WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBMessageManager)
 
-- (void)conversation:(AVIMConversation *)conversation didReceiveTypedMessage:(AVIMTypedMessage *)message{
+- (void)conversation:(LCIMConversation *)conversation didReceiveTypedMessage:(LCIMTypedMessage *)message{
     if (conversation == nil ||
         message == nil) {
         return;
@@ -20,7 +20,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBMessageManager)
     
     
     // 如果本地没有信息
-    if (!conversation.createAt &&
+    if (!conversation.createdAt &&
         ![[WBChatListManager sharedInstance]
           isExistWithConversationId:conversation.conversationId]) {
             
@@ -43,8 +43,8 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBMessageManager)
 }
 
 #pragma mark - Private
-- (void)receiveMessage:(AVIMTypedMessage *)message
-          conversation:(AVIMConversation *)conversation {
+- (void)receiveMessage:(LCIMTypedMessage *)message
+          conversation:(LCIMConversation *)conversation {
     
     NSMutableDictionary *mDic = [NSMutableDictionary new];
     if (conversation) {

@@ -6,8 +6,8 @@
 
 // 分类
 #import "NSError+WBError.h"
-#import "AVIMMessage+WBExtension.h"
-#import "AVIMTypedMessage+WBExtension.h"
+#import "LCIMMessage+WBExtension.h"
+#import "LCIMTypedMessage+WBExtension.h"
 #import "NSObject+WBExtension.h"
 #import "NSDate+WBExt.h"
 

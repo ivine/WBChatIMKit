@@ -6,8 +6,8 @@
 //  Copyright © 2018年 RedRain. All rights reserved.
 //
 
-#import <AVOSCloud/AVOSCloud.h>
-#import <AVOSCloudIM/AVOSCloudIM.h>
+#import <LeanCloudObjc/Foundation.h>
+#import <LeanCloudObjc/Realtime.h>
 
 typedef NS_ENUM(NSUInteger, WBChatMessageType) {
     WBChatMessageTypeUnknow = 0,
@@ -36,14 +36,14 @@ typedef NS_ENUM(NSUInteger, WBChatMessageType) {
 /*!
  * 表示消息状态
  */
-@property (nonatomic, assign) AVIMMessageStatus status;
+@property (nonatomic, assign) LCIMMessageStatus status;
 
 
-@property (nonatomic, strong) AVIMTypedMessage *content;
+@property (nonatomic, strong) LCIMTypedMessage *content;
 
 
 
-+ (instancetype)createWithTypedMessage:(AVIMTypedMessage *)message;
++ (instancetype)createWithTypedMessage:(LCIMTypedMessage *)message;
 
 
 

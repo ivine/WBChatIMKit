@@ -47,7 +47,7 @@ WBChatBarViewDelegate,WBChatBarViewDataSource,WBChatMessageCellDelegate>
 /**
  会话对象
  */
-@property (nonatomic, strong) AVIMConversation *conversation;
+@property (nonatomic, strong) LCIMConversation *conversation;
 
 /**
  存放消息列表的数组
@@ -61,7 +61,7 @@ WBChatBarViewDelegate,WBChatBarViewDataSource,WBChatMessageCellDelegate>
  @param conversation 会话镀锡
  @return 控制器对象
  */
-+ (instancetype)createWithConversation:(AVIMConversation *)conversation;
++ (instancetype)createWithConversation:(LCIMConversation *)conversation;
 
 
 

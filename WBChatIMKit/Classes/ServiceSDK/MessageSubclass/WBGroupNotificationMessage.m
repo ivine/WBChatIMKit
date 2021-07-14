@@ -14,8 +14,8 @@
     [self registerSubclass];
 }
 
-#pragma mark - AVIMTypedMessageSubclassing
-+ (AVIMMessageMediaType)classMediaType{
+#pragma mark - LCIMTypedMessageSubclassing
++ (LCIMMessageMediaType)classMediaType{
     return (int8_t)(WBChatMessageTypeNotification);
 }
 @end

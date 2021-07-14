@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "WBIMDefine.h"
-@class AVIMConversation;
-@class AVIMMessage;
+@class LCIMConversation;
+@class LCIMMessage;
 
 @interface WBChatListModel : NSObject
 
 @property (nonatomic, copy) NSString *conversationID;           ///< 会话ID
-@property (nonatomic, strong) AVIMConversation *conversation;///< 扩展使用
+@property (nonatomic, strong) LCIMConversation *conversation;///< 扩展使用
 @property (nonatomic, assign) NSInteger unreadCount;///< 会话消息未读数
 @property (nonatomic, assign) NSTimeInterval lastMessageAt; // 最后一条消息的时间
 @property (nonatomic, assign) BOOL mentioned;///< 是否有人@当前用户
@@ -28,7 +28,7 @@
 /**
  快速通过 IM 对象的到 list对象
  */
-+ (instancetype)createWithConversation:(AVIMConversation *)conversation;
++ (instancetype)createWithConversation:(LCIMConversation *)conversation;
 
 @end
 

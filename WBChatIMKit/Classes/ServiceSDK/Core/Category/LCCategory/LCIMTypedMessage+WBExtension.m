@@ -1,9 +1,9 @@
 //
 //  AVIMTypedMessage+WBExtension.m
 
-#import "AVIMTypedMessage+WBExtension.h"
+#import "LCIMTypedMessage+WBExtension.h"
 
-@implementation AVIMTypedMessage (WBExtension)
+@implementation LCIMTypedMessage (WBExtension)
 - (void)wb_setAttributesObject:(id)object forKey:(NSString *)key {
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     [attributes setObject:object forKey:key];

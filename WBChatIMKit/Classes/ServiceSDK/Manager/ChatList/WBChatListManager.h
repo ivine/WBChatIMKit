@@ -35,14 +35,14 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(WBChatListManager)
  *  @param conversationId   对话的 id
  */
 - (void)fetchConversationWithConversationId:(NSString *)conversationId
-                                   callback:(void (^_Nullable)(AVIMConversation * _Nullable conversation,
+                                   callback:(void (^_Nullable)(LCIMConversation * _Nullable conversation,
                                                                NSError * _Nullable error))callback;
 #pragma mark - 根据 conversationId集合 获取对话
 /**
  *  根据 conversationId数组 获取多个指定的会话信息
  */
 - (void)fetchConversationsWithConversationIds:(NSSet *)conversationIds
-                                     callback:(void (^_Nullable)(NSArray<AVIMConversation *> * _Nullable conversations,
+                                     callback:(void (^_Nullable)(NSArray<LCIMConversation *> * _Nullable conversations,
                                                                  NSError * _Nullable error))callback;
 
 
@@ -52,7 +52,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(WBChatListManager)
 
  @param conversation 最近的会话信息
  */
-- (void)insertConversationToList:(AVIMConversation *)conversation;
+- (void)insertConversationToList:(LCIMConversation *)conversation;
 
 
 /**
@@ -77,7 +77,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(WBChatListManager)
 
  @param conversation 被阅读的会话
  */
-- (void)readConversation:(AVIMConversation *)conversation;
+- (void)readConversation:(LCIMConversation *)conversation;
 
 
 @end

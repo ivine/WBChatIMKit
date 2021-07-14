@@ -6,7 +6,7 @@
 #define WBServiceSDKHeaders_h
 
 #import "UIImage+WBScaleExtension.h"
-#import "AVIMConversation+WBExtension.h"
+#import "LCIMConversation+WBExtension.h"
 
 
 #import "WBIMDefine.h"

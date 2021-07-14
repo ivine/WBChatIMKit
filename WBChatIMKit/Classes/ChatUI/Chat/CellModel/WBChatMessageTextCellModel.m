@@ -27,7 +27,7 @@
     
     [super setMessageModel:messageModel];
     
-    AVIMTextMessage *textMessage = (AVIMTextMessage*)messageModel.content;
+    LCIMTextMessage *textMessage = (LCIMTextMessage*)messageModel.content;
     self.content = textMessage.text;
     WBChatCellConfig *config = [WBChatCellConfig sharedInstance];
     CGFloat textSpaceL = config.textbubbleContentInset.left;
@@ -48,7 +48,7 @@
 
     
     //收到的会话
-    if (messageModel.content.ioType == AVIMMessageIOTypeIn) {
+    if (messageModel.content.ioType == LCIMMessageIOTypeIn) {
         //文本气泡frame
         CGFloat textBubleX = headerMarginSpace + headerSize.width + headerBubbleSpace;
         CGFloat textBubleY = headerMarginSpace;
@@ -92,7 +92,7 @@
 }
 
 //获取文本显示尺寸
-- (CGSize)getContentSizeWithChatModel:(AVIMTextMessage *)model {
+- (CGSize)getContentSizeWithChatModel:(LCIMTextMessage *)model {
     //    MLLinkLabel *textView=[[MLLinkLabel alloc] initWithFrame:CGRectMake(0,0,kDialogTextContentMaxWidth, CGFLOAT_MAX)];
     //    textView.font = kDialogTextFont;
     //    textView.numberOfLines = 0;

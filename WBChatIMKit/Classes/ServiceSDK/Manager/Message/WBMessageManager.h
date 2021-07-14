@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "WBCoreConfiguration.h"
-#import <AVOSCloud/AVOSCloud.h>
-#import <AVOSCloudIM/AVOSCloudIM.h>
+#import <LeanCloudObjc/Foundation.h>
+#import <LeanCloudObjc/Realtime.h>
 
 #define WBMessageConversationKey @"conversation"
 #define WBMessageMessageKey @"message"
@@ -27,7 +27,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(WBMessageManager)
 /**
  收到新的消息
  */
-- (void)conversation:(AVIMConversation *)conversation didReceiveTypedMessage:(AVIMTypedMessage *)message;
+- (void)conversation:(LCIMConversation *)conversation didReceiveTypedMessage:(LCIMTypedMessage *)message;
 
 @end
 NS_ASSUME_NONNULL_END

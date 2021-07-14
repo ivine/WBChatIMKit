@@ -131,7 +131,7 @@
     self.bubbleImageView.frame = self.dialogCellImageView.frame;
     
     //3.给图片添加进度显示效果--添加进度圈及进度百分比
-    if (self.tempChatModel.status == AVIMMessageStatusSending) {
+    if (self.tempChatModel.status == LCIMMessageStatusSending) {
         self.picProcessImageView.hidden = NO;
         self.picProcessLabel.hidden = NO;
         self.picProcessImageView.frame = imageFrameModel.imageProcessRectFrame;
