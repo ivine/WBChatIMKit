@@ -145,8 +145,7 @@
                 return;
             }
         }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationKey_WBChatList_Fetching object:nil];
+    
         [[WBChatKit sharedInstance] fetchAllConversationsFromLocal:^(NSArray<WBChatListModel *> * _Nullable conersations,
                                                                      NSError * _Nullable error) {
             
@@ -163,8 +162,6 @@
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [self.tableView reloadData];
             });
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationKey_WBChatList_FetchCompleted object:nil];
         }];
     });
 }
