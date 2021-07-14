@@ -136,27 +136,35 @@
 
 
 - (void)reloadListData {
-    if (self.navigationController.topViewController != self) {
-        return;
-    }
-    
-    [[WBChatKit sharedInstance] fetchAllConversationsFromLocal:^(NSArray<WBChatListModel *> * _Nullable conersations,
-                                                                 NSError * _Nullable error) {
-        
-        NSMutableArray *tempA = [NSMutableArray arrayWithCapacity:conersations.count];
-        for (WBChatListModel *obj in conersations) {
-            WBChatListCellModel *cellModel = [WBChatListCellModel new];
-            
-            // 在set方法中,进行了frame计算, 时间戳整理等操作
-            cellModel.dataModel = obj;
-            
-            [tempA addObject:cellModel];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.navigationController != nil) {
+            if (self.parentViewController != nil &&
+                self.navigationController.topViewController != self.parentViewController) {
+                return;
+            } else if (self.parentViewController == nil && self.navigationController.topViewController != self) {
+                return;
+            }
         }
-        self.dataArray = tempA;
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            [self.tableView reloadData];
-        });
-    }];}
+    
+        [[WBChatKit sharedInstance] fetchAllConversationsFromLocal:^(NSArray<WBChatListModel *> * _Nullable conersations,
+                                                                     NSError * _Nullable error) {
+            
+            NSMutableArray *tempA = [NSMutableArray arrayWithCapacity:conersations.count];
+            for (WBChatListModel *obj in conersations) {
+                WBChatListCellModel *cellModel = [WBChatListCellModel new];
+                
+                // 在set方法中,进行了frame计算, 时间戳整理等操作
+                cellModel.dataModel = obj;
+                
+                [tempA addObject:cellModel];
+            }
+            self.dataArray = tempA;
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                [self.tableView reloadData];
+            });
+        }];
+    });
+}
 
 
 #pragma mark -  Public Methods
