@@ -62,7 +62,7 @@ WB_SYNTHESIZE_SINGLETON_FOR_CLASS(WBChatManager)
     creationOption.name = name;
     
     // 1. YES: 如果相同 members 的对话已经存在，将返回原来的对话  NO:创建一个新对话
-    LCIMConversationQueryOption options = reuseConversation ? LCIMConversationQueryOptionWithMessage : LCIMConversationQueryOptionNone ;
+    creationOption.isUnique = reuseConversation;
     
     // 2. 区分会话的类型
     WBConversationType type = WBConversationTypeSingle;
