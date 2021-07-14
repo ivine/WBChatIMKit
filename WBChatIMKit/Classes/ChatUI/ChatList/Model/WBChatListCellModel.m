@@ -25,6 +25,12 @@
     
     
     LCIMTypedMessage *typedMessage = [dataModel.conversation.lastMessage wb_getValidTypedMessage];
+    if (dataModel.conversation.lastMessage == nil) {
+        NSArray<LCIMMessage *> *array = [dataModel.conversation queryMessagesFromCacheWithLimit:1];
+        if (array.count > 0) {
+            typedMessage = [[array lastObject] wb_getValidTypedMessage];
+        }
+    }
     NSString *lastString = @"";
     
     switch (typedMessage.messageType_wb) {
