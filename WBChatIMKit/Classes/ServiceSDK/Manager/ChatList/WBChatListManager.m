@@ -182,10 +182,18 @@ static LCIMConversation * staticLastConversation = nil;
 - (void)deleteConversation:(NSString *)conversationId{
     
     WBChatListModel *listModel = [[WBChatListDao sharedInstance] chatListModelWithConversationId:conversationId client:self.client];
+    
+    /**
+     * 暂时注释这一段代码
+     * 备注： readInBackground 会触发
+     * delegate: `- (void)conversation:(LCIMConversation *)conversation didUpdateForKey:(NSString *)key`
+     * delgate ---> insertConversationToList ---> re-add this converation to local DB
+     * 从而导致该聊天无法被删除
     if (listModel) {
         // 清除之前的未读数, 以及聊天记录
         [listModel.conversation readInBackground];
     }
+    */
     
     // 列表
     [[WBChatListDao sharedInstance] deleteConversation:conversationId];
