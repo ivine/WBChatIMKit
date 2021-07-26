@@ -26,9 +26,7 @@
     
     [self addObserver:self forKeyPath:WBRefreshKeyPathContentOffset options:NSKeyValueObservingOptionNew context:nil];
 }
-- (void)removeFromSuperview{
-    
-}
+
 
 - (void)wb_endRefreshing{
     self.wb_refreshState = WBRefreshStateIdle;
